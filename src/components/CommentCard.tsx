@@ -3,6 +3,8 @@ import type { Comment as CommentType } from "../types";
 import plusIcon from "../assets/icons/icon-plus.svg";
 import minusIcon from "../assets/icons/icon-minus.svg";
 import replyIcon from "../assets/icons/icon-reply.svg";
+import { useContext } from "react";
+import { CurrentUserContext } from "../App";
 
 interface CommentCardProps {
   comment: CommentType;
@@ -12,6 +14,8 @@ interface CommentCardProps {
 function CommentCard({ comment, isReply = false }: CommentCardProps) {
   const { id, user, content, createdAt, replies, score } = comment;
 
+  const currentUser = useContext(CurrentUserContext);
+  console.log("current user in comment card: ", currentUser);
   return (
     <li
       className={`border p-2 mb-2 ${

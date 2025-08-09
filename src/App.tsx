@@ -1,17 +1,21 @@
+import { createContext } from "react";
 // import components
 import CommentsList from "./components/CommentsList";
+// import types
+import type { User } from "./types";
 // import static data
 import data from "../utils/data.json";
 
-function App() {
-  // console.log(data);
+export const CurrentUserContext = createContext<User | null>(null);
 
+function App() {
   const comments = data.comments;
+  const currentUser = data.currentUser;
 
   return (
-    <div className="App">
+    <CurrentUserContext.Provider value={currentUser}>
       <CommentsList comments={comments} />
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 
