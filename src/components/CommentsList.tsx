@@ -1,5 +1,5 @@
 // import components
-import Comment from "./Comment";
+import CommentCard from "./CommentCard";
 // import types
 import type { Comment as CommentType } from "../types";
 
@@ -8,11 +8,15 @@ interface CommentsListProps {
 }
 
 function CommentsList({ comments }: CommentsListProps) {
-  // console.log(comments);
   return (
     <ul>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <>
+          <CommentCard key={comment.id} comment={comment} />
+          {comment.replies?.map((reply) => (
+            <CommentCard key={reply.id} comment={reply} isReply />
+          ))}
+        </>
       ))}
     </ul>
   );

@@ -1,20 +1,23 @@
-// import types
 import type { Comment as CommentType } from "../types";
 // import static assets
 import plusIcon from "../assets/icons/icon-plus.svg";
 import minusIcon from "../assets/icons/icon-minus.svg";
 import replyIcon from "../assets/icons/icon-reply.svg";
 
-interface CommentProps {
+interface CommentCardProps {
   comment: CommentType;
+  isReply?: boolean;
 }
 
-function Comment({ comment }: CommentProps) {
-  // console.log(comment);
+function CommentCard({ comment, isReply = false }: CommentCardProps) {
   const { id, user, content, createdAt, replies, score } = comment;
 
   return (
-    <li className="border p-2 mb-2">
+    <li
+      className={`border p-2 mb-2 ${
+        isReply ? "ml-8 border-l-2 pl-4 border-gray-300" : ""
+      }`}
+    >
       <div>
         <div className="flex items-center gap-2 mb-2">
           <img src={user.image.webp} alt={`${user.username}'s avatar`} />
@@ -41,19 +44,9 @@ function Comment({ comment }: CommentProps) {
             Reply
           </button>
         </div>
-
-        {/* {replies && (
-          <div className="border-red-500 border-l-2 pl-4">
-            {replies?.map((reply) => (
-              <p key={reply.id} className="border-b pb-2">
-                {reply.content}
-              </p>
-            ))}
-          </div>
-        )} */}
       </div>
     </li>
   );
 }
 
-export default Comment;
+export default CommentCard;
