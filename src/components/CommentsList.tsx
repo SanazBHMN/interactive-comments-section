@@ -8,7 +8,7 @@ interface CommentsListProps {
 }
 
 function CommentsList({ comments }: CommentsListProps) {
-  console.log(comments);
+  // console.log(comments);
   return (
     <ul>
       {comments.map((comment) => (

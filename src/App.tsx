@@ -10,7 +10,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Interactive Comments Section</h1>
       <CommentsList comments={comments} />
     </div>
   );
