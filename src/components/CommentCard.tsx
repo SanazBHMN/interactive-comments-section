@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CurrentUserContext } from "../App";
 // import types
 import type { Comment as CommentType } from "../types";
@@ -13,17 +13,28 @@ interface CommentCardProps {
   comment: CommentType;
   isReply?: boolean;
   onDeleteComment?: (commentId: string | number) => void;
+  onUpdateComment?: (commentId: string | number, newContent: string) => void;
 }
 
 function CommentCard({
   comment,
   isReply = false,
   onDeleteComment,
+  onUpdateComment,
 }: CommentCardProps) {
   const { id, user, content, createdAt, replies, score } = comment;
 
+  const [isInEditMode, setIsInEditMode] = useState(false);
+  const [editedContent, setEditedContent] = useState(content);
+
   const currentUser = useContext(CurrentUserContext);
+
   const isOwner = comment.user.username === currentUser?.username;
+
+  const handleUpdateContent = (commentId: string | number, content: string) => {
+    onUpdateComment ? onUpdateComment(commentId, content) : undefined;
+    setIsInEditMode(false);
+  };
 
   return (
     <li
@@ -37,7 +48,20 @@ function CommentCard({
           <span>{user.username}</span>
           <span>{createdAt}</span>
         </div>
-        <p>{content}</p>
+        {isInEditMode ? (
+          <textarea
+            cols={150}
+            value={editedContent}
+            onChange={(event) => setEditedContent(event.target.value)}
+          ></textarea>
+        ) : (
+          <p>{editedContent}</p>
+        )}
+        {isInEditMode && (
+          <button onClick={() => handleUpdateContent(id, editedContent)}>
+            UPDATE
+          </button>
+        )}
 
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -64,6 +88,7 @@ function CommentCard({
               <button
                 className="flex justify-center items-center gap-1 cursor-pointer"
                 aria-label="Edit comment"
+                onClick={() => setIsInEditMode(true)}
               >
                 <img src={editIcon} alt="" />
                 Edit

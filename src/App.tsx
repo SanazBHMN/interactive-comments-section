@@ -57,9 +57,34 @@ function App() {
     );
   };
 
+  const updateComment = (commentId: string | number, newContent: string) => {
+    const updatedComment = comments.map((comment) => {
+      if (comment.id === commentId) return { ...comment, content: newContent };
+
+      if (comment.replies) {
+        const updatedReplies = comment.replies.map((reply) => {
+          if (reply.id === commentId) {
+            return { ...reply, content: newContent };
+          }
+          return reply;
+        });
+
+        return { ...comment, replies: updatedReplies };
+      }
+
+      return comment;
+    });
+
+    setComments(updatedComment);
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <CommentsList comments={comments} onDeleteComment={deleteComment} />
+      <CommentsList
+        comments={comments}
+        onDeleteComment={deleteComment}
+        onUpdateComment={updateComment}
+      />
       <form
         onSubmit={onSubmitHandler}
         className="flex justify-between items-start border gap-2 mt-4 p-4"
