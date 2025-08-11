@@ -45,7 +45,13 @@ function App() {
         className="flex justify-between items-start border gap-2 mt-4 p-4"
       >
         <img src={currentUser.image.png} alt={`${currentUser}'s avatar`} />
-        <textarea name="" id="" value={userComment} onChange={onChangeHandler}>
+        <textarea
+          name=""
+          id=""
+          placeholder="Add a comment..."
+          value={userComment}
+          onChange={onChangeHandler}
+        >
           {userComment}
         </textarea>
         <button type="submit">SEND</button>
