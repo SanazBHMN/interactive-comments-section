@@ -5,18 +5,24 @@ import type { Comment as CommentType } from "../types";
 
 interface CommentsListProps {
   comments: Array<CommentType>;
+  onDeleteComment?: (commentId: string | number) => void;
 }
 
-function CommentsList({ comments }: CommentsListProps) {
+function CommentsList({ comments, onDeleteComment }: CommentsListProps) {
   const sortedComments = [...comments].sort((a, b) => b.score - a.score); // Sort comments by score in descending order
 
   return (
     <ul>
       {sortedComments.map((comment) => (
         <div key={comment.id}>
-          <CommentCard comment={comment} />
+          <CommentCard comment={comment} onDeleteComment={onDeleteComment} />
           {comment.replies?.map((reply) => (
-            <CommentCard key={reply.id} comment={reply} isReply />
+            <CommentCard
+              key={reply.id}
+              comment={reply}
+              isReply
+              onDeleteComment={onDeleteComment}
+            />
           ))}
         </div>
       ))}

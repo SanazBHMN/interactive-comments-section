@@ -12,9 +12,14 @@ import editIcon from "../assets/icons/icon-edit.svg";
 interface CommentCardProps {
   comment: CommentType;
   isReply?: boolean;
+  onDeleteComment?: (commentId: string | number) => void;
 }
 
-function CommentCard({ comment, isReply = false }: CommentCardProps) {
+function CommentCard({
+  comment,
+  isReply = false,
+  onDeleteComment,
+}: CommentCardProps) {
   const { id, user, content, createdAt, replies, score } = comment;
 
   const currentUser = useContext(CurrentUserContext);
@@ -49,6 +54,9 @@ function CommentCard({ comment, isReply = false }: CommentCardProps) {
               <button
                 className="flex justify-center items-center gap-1 cursor-pointer"
                 aria-label="Delete comment"
+                onClick={
+                  onDeleteComment ? () => onDeleteComment(id) : undefined
+                }
               >
                 <img src={deleteIcon} alt="" />
                 Delete

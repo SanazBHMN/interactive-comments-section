@@ -37,9 +37,29 @@ function App() {
     setUserComment(event.target.value);
   };
 
+  const deleteComment = (commentId: string | number) => {
+    const filteredComments = comments.filter(
+      (comment) => comment.id !== commentId
+    );
+
+    const filteredReplies = comments.map((comment) => {
+      return {
+        ...comment,
+        replies:
+          comment.replies?.filter((reply) => reply.id !== commentId) || [],
+      };
+    });
+
+    setComments(
+      filteredComments.length !== comments.length
+        ? filteredComments // Delete a top-level comment
+        : filteredReplies // Delete a reply
+    );
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <CommentsList comments={comments} />
+      <CommentsList comments={comments} onDeleteComment={deleteComment} />
       <form
         onSubmit={onSubmitHandler}
         className="flex justify-between items-start border gap-2 mt-4 p-4"
